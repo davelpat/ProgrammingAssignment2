@@ -36,12 +36,15 @@ cacheSolve <- function(a_matrix, ...) {
   # get the cached inverse, assuming it exists
   inverse <- a_matrix$getinverse()
   # test the assumption
-  if(!is.null(inverse)) {
-    message("getting cached data")
-    return(inverse)
+  if(is.null(inverse)) {
+    # no cached inverse, so calculate it and cache it
+    data <- a_matrix$get()
+    inverse <- solve(data, ...)
+    a_matrix$setinverse(inverse)
   } else {
-    message("No cached data!!")
+    message("getting cached data")
+    #return(inverse) 
   }
   ## Return a matrix that is the inverse of 'a_matrix'
-  #inverse
+  inverse
 }
